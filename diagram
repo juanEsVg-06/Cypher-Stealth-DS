@@ -1,0 +1,170 @@
+@startuml
+
+'======================
+' CLASE PRINCIPAL
+'======================
+class SistemaCypherStealthIDS {
+  - nombreProyecto : String
+  - version : String
+  + iniciar()
+  + detener()
+}
+
+'======================
+' MODULO MFA
+'======================
+class ModuloGestionMFA {
+  - listaAnalistas : ListaDoblementeEnlazada
+  + crearAnalista(a : AnalistaSeguridad)
+  + leerAnalista(id : String) : AnalistaSeguridad
+  + actualizarAnalista(a : AnalistaSeguridad)
+  + eliminarAnalista(id : String)
+  + validarToken(idAnalista : String, token : String) : boolean
+}
+
+class AnalistaSeguridad {
+  - idAnalista : String
+  - nombre : String
+  - email : String
+  - nivelPrivilegio : String
+  - tokenMFA : TokenMFA
+  + autenticar(token : String) : boolean
+}
+
+class TokenMFA {
+  - idToken : String
+  - claveCriptografica : String
+  - estado : String
+  + esValido() : boolean
+}
+
+class ListaDoblementeEnlazada {
+  - tamaño : int
+  + insertar(obj : Object)
+  + eliminar(obj : Object)
+  + buscar(criterio : Object) : Object
+}
+
+'======================
+' MODULO TRIAGE
+'======================
+class ModuloTriageAlertas {
+  - colaPrioridadTickets : PriorityQueue
+  + crearTicket(alerta : Alerta, analista : AnalistaSeguridad) : TicketIncidente
+  + leerTicketsPendientes() : List
+  + actualizarTicket(ticket : TicketIncidente)
+  + eliminarTicket(id : String)
+  + obtenerTicketCritico() : TicketIncidente
+}
+
+class PriorityQueue {
+  - elementos : List
+  + insertar(e : Object)
+  + extraerMaximo() : Object
+  + estaVacia() : boolean
+}
+
+class TicketIncidente {
+  - idTicket : String
+  - severidad : int
+  - estado : String
+  - descripcion : String
+  - fechaCreacion : Date
+  - analistaAsignado : AnalistaSeguridad
+  - activoAfectado : ActivoRed
+  + calcularPrioridad() : int
+}
+
+class Alerta {
+  - idAlerta : String
+  - tipo : String
+  - vulnerabilidad : int
+  - impacto : int
+  - timestamp : Date
+  + calcularSeveridad() : int
+}
+
+'======================
+' MODULO FORENSE
+'======================
+class ModuloForenseTimeline {
+  - pilaEventos : Stack
+  + registrarEvento(e : EventoForense)
+  + obtenerUltimoEvento() : EventoForense
+  + actualizarEvento(e : EventoForense)
+  + purgarEventos(idTicket : String)
+  + reconstruirCadenaAtaque(idTicket : String) : List
+}
+
+class EventoForense {
+  - idEvento : String
+  - tipo : String
+  - timestamp : Date
+  - descripcion : String
+  - ticketRelacionado : TicketIncidente
+  + agregarNota(nota : String)
+}
+
+class Stack {
+  - elementos : List
+  + push(e : Object)
+  + pop() : Object
+  + peek() : Object
+  + estaVacia() : boolean
+}
+
+'======================
+' MODULO INVENTARIO
+'======================
+class ModuloInventarioActivos {
+  - grafoActivos : GrafoRed
+  + registrarActivo(a : ActivoRed)
+  + leerActivosVulnerables() : List
+  + actualizarActivo(a : ActivoRed)
+  + eliminarActivo(id : String)
+  + calcularRutaAtaque(origen : ActivoRed, destino : ActivoRed) : List
+}
+
+class GrafoRed {
+  - nodos : List
+  - adyacencias : Map
+  + agregarNodo(a : ActivoRed)
+  + agregarConexion(origen : ActivoRed, destino : ActivoRed, peso : double)
+  + dijkstra(origen : ActivoRed, destino : ActivoRed) : List
+}
+
+class ActivoRed {
+  - idActivo : String
+  - ip : String
+  - mac : String
+  - nivelImportancia : int
+  + esCritico() : boolean
+}
+
+'======================
+' RELACIONES
+'======================
+
+SistemaCypherStealthIDS --> ModuloGestionMFA
+SistemaCypherStealthIDS --> ModuloTriageAlertas
+SistemaCypherStealthIDS --> ModuloForenseTimeline
+SistemaCypherStealthIDS --> ModuloInventarioActivos
+
+ModuloGestionMFA --> AnalistaSeguridad
+AnalistaSeguridad --> TokenMFA
+ModuloGestionMFA --> ListaDoblementeEnlazada
+
+ModuloTriageAlertas --> PriorityQueue
+ModuloTriageAlertas --> TicketIncidente
+TicketIncidente --> AnalistaSeguridad
+TicketIncidente --> ActivoRed
+ModuloTriageAlertas --> Alerta
+
+ModuloForenseTimeline --> Stack
+ModuloForenseTimeline --> EventoForense
+EventoForense --> TicketIncidente
+
+ModuloInventarioActivos --> GrafoRed
+GrafoRed --> ActivoRed
+
+@enduml
