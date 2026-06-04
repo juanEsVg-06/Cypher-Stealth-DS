@@ -19,7 +19,7 @@ public class ModuloTriageAlertas {
         String idTicket = "TKT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
         // 2. Creacion del objeto para el manejo de tickets
-        TicketIncidente nuevoTicket = new TicketIncidente(idTicket, Estado.PENDIENTE, alerta, activoAfectado);
+        TicketIncidente nuevoTicket = new TicketIncidente(idTicket, Estado.PENDIENTE, alerta, activoAfectado, "Incidente autogenerado por alerta tipo: " + alerta.getTipo());
 
         // 3. PriorityQueue lo ordena automáticamente
         colaTickets.insertar(nuevoTicket);

@@ -3,13 +3,13 @@ package com.cypherstealth.GUI;
 import com.cypherstealth.ModuloGestionMFA;
 import com.cypherstealth.model.AnalistaSeguridad;
 import com.cypherstealth.model.TokenMFA;
+import com.cypherstealth.model.EstadoToken; // <-- ¡Añade esta línea!
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-
 import java.io.File;
 
 public class VistaMFA extends VBox {
