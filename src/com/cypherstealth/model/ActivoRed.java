@@ -24,4 +24,17 @@ public class ActivoRed {
     public String getIp() { return ip; }
     public String getMac() { return mac; }
     public int getNivelImportancia() { return nivelImportancia; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ActivoRed activo = (ActivoRed) o;
+        return idActivo.equals(activo.idActivo) && ip.equals(activo.ip);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(idActivo, ip);
+    }
 }

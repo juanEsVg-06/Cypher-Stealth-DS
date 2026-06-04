@@ -67,7 +67,7 @@ public class ModuloInventarioActivos {
         }
     }
 
-    //ELIMINAR (D): Dar de baja y remover un activo del inventario[cite: 77, 78].
+    //ELIMINAR (D): Dar de baja y remover un activo del inventario
     public void eliminarActivo(String idActivo) {
         if (idActivo == null || idActivo.isEmpty()) return;
 
@@ -80,7 +80,15 @@ public class ModuloInventarioActivos {
         }
 
         if (objetivo != null) {
+            // 1. Lo eliminamos del registro principal de nodos
             grafo.obtenerTodosLosNodos().remove(objetivo);
+
+            // 2. Limpiamos las conexiones fantasma en el resto de la red
+            for (ActivoRed nodoRestante : grafo.obtenerTodosLosNodos()) {
+                List<ActivoRed> vecinos = grafo.obtenerVecinos(nodoRestante);
+                // Si el nodo restante estaba conectado al que acabamos de borrar, cortamos el enlace
+                vecinos.remove(objetivo);
+            }
         }
     }
 

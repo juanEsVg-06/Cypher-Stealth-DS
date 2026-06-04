@@ -15,12 +15,13 @@ public class TicketIncidente implements Comparable<TicketIncidente> {
     private AnalistaSeguridad analistaAsignado;
     private ActivoRed activoAfectado;
 
-    public TicketIncidente(String idTicket, Estado estado, Alerta alertaOrigen, ActivoRed activoAfectado) {
+    public TicketIncidente(String idTicket, Estado estado, Alerta alertaOrigen, ActivoRed activoAfectado, String descripcion) {
         this.idTicket = idTicket;
         this.alertaOrigen = alertaOrigen;
         this.activoAfectado = activoAfectado;
         this.severidad = alertaOrigen.calcularSeveridad();
         this.estado = estado;
+        this.descripcion = descripcion; // Ahora sí lo guardamos
         this.fechaCreacion = new Date();
     }
 
@@ -33,6 +34,11 @@ public class TicketIncidente implements Comparable<TicketIncidente> {
         }
         return prioridadFinal;
     }
+
+    public String getDescripcion() { return descripcion; }
+    public Date getFechaCreacion() { return fechaCreacion; }
+    public ActivoRed getActivoAfectado() { return activoAfectado; }
+    public Alerta getAlertaOrigen() { return alertaOrigen; }
 
     // Lógica para comparar tickets y ordenarlos por mayor prioridad (Heapsort / Priority Queue)
     @Override

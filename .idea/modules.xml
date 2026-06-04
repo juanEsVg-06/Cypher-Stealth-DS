@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Cypher Stealth-DS.iml" filepath="$PROJECT_DIR$/Cypher Stealth-DS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CypherStealthDS.iml" filepath="$PROJECT_DIR$/CypherStealthDS.iml" />
     </modules>
   </component>
 </project>
