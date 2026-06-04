@@ -3,7 +3,7 @@ package com.cypherstealth.model;
 public class TokenMFA {
     private String idToken;
     private String claveCriptografica;
-    private EstadoToken estado; // Podría ser otro Enum (ACTIVO, REVOCADO, PERDIDO)
+    private EstadoToken estado; // Ahora usa tu nuevo Enum
 
     public TokenMFA(String idToken, String claveCriptografica, EstadoToken estado) {
         this.idToken = idToken;
@@ -11,8 +11,9 @@ public class TokenMFA {
         this.estado = estado;
     }
 
-    // Lógica para validar si el token ingresado coincide con el hardware
+    // Lógica para validar si el token ingresado coincide y su estado es ACTIVO
     public boolean esValido(String tokenIngresado) {
-        return this.claveCriptografica.equals(tokenIngresado) && this.estado.equals(EstadoToken.ACTIVO);
+        // Con los Enums usamos '==' en lugar de '.equals()' para comparar estados
+        return this.claveCriptografica.equals(tokenIngresado) && this.estado == EstadoToken.ACTIVO;
     }
 }

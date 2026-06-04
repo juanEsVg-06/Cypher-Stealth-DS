@@ -92,7 +92,7 @@ public class VistaMFA extends VBox {
         Button btnCrearDummy = new Button("Inyectar Analista Prueba");
         btnCrearDummy.setStyle("-fx-background-color: transparent; -fx-text-fill: #888888; -fx-underline: true; -fx-cursor: hand;");
         btnCrearDummy.setOnAction(e -> {
-            TokenMFA tokenDummy = new TokenMFA("TK-001", "123456", "Activo");
+            TokenMFA tokenDummy = new TokenMFA("TK-001", "123456", EstadoToken.ACTIVO);
             AnalistaSeguridad dummy = new AnalistaSeguridad("A-001", "Admin SOC", "admin@udla.edu.ec", "Tier 3", tokenDummy);
             moduloMFA.crearAnalista(dummy);
             lblMensaje.setText("> SYS: Analista A-001 (Token: 123456) inyectado.");
