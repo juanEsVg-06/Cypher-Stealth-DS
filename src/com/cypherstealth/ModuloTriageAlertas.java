@@ -14,16 +14,16 @@ public class ModuloTriageAlertas {
         this.colaTickets = new ColaPrioridad();
     }
 
-    public TicketIncidente crearTicket(Alerta alerta, AnalistaSeguridad analista, ActivoRed activoAfectado) {
+    public TicketIncidente crearTicket(Alerta alerta, AnalistaSeguridad analista, ActivoRed activoAfectado, String descripcion) {
         // 1. Generacion de ID unico
         String idTicket = "TKT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
+        // Pasamos la descripción dinámica en lugar del texto quemado
         // 2. Creacion del objeto para el manejo de tickets
-        TicketIncidente nuevoTicket = new TicketIncidente(idTicket, Estado.PENDIENTE, alerta, activoAfectado, "Incidente autogenerado por alerta tipo: " + alerta.getTipo());
+        TicketIncidente nuevoTicket = new TicketIncidente(idTicket, Estado.PENDIENTE, alerta, activoAfectado, descripcion);
 
         // 3. PriorityQueue lo ordena automáticamente
         colaTickets.insertar(nuevoTicket);
-
         return nuevoTicket;
     }
 
